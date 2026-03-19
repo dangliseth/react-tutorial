@@ -1,42 +1,20 @@
-import {
-  Image,
-  Input,
-  InputGroup,
-  Link,
-  Group,
-  Box,
-  Flex,
-} from "@chakra-ui/react";
-import { FaSearch } from "react-icons/fa";
+import { HStack, Image } from '@chakra-ui/react'
+import logo from '../assets/logo.webp';
+import ColorModeSwitch from './ColorModeSwitch';
+import SearchInput from './SearchInput';
 
-const NavBar = () => {
+interface Props {
+  onSearch: (searchText: string) => void;
+}
+
+const NavBar = ({ onSearch }: Props) => {
   return (
-    <>
-      <Box position="sticky">
-        <Flex gap="5">
-          <a className="navbar-brand" href="#">
-            <Image
-              height="40px"
-              src="https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo.png"
-            />
-          </a>
-          <form>
-            <InputGroup startElement={<FaSearch />}>
-              <Input placeholder="Search" key="search" />
-            </InputGroup>
-          </form>
-          <Group marginEnd="auto">
-            <Link href="https://chakra-ui.com" colorPalette="gray">
-              LOG IN
-            </Link>
-            <Link href="https://chakra-ui.com" colorPalette="gray">
-              SIGN UP
-            </Link>
-          </Group>
-        </Flex>
-      </Box>
-    </>
-  );
-};
+    <HStack gap={40}>
+      <Image src={logo} boxSize='60px' />
+      <SearchInput onSearch={onSearch} />
+      <ColorModeSwitch />
+    </HStack>
+  )
+}
 
-export default NavBar;
+export default NavBar

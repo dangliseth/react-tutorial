@@ -1,35 +1,35 @@
-import {
-  GridItem,
-  Heading,
-  SimpleGrid,
-  Select,
-  Portal,
-} from "@chakra-ui/react";
-import useCards from "../hooks/useCards";
+import { SimpleGrid, Text } from "@chakra-ui/react";
+import { type GameQuery } from "../../App";
 import GameBox from "./GameBox";
-import GameSelect from "./GameSelect";
-import GameSkeleton from "./GameSkeleton";
+import GameBoxContainer from "./GameBoxContainer";
+import GameSkeleton from "../../components/GameSkeleton";
+import useCards from "../hooks/useCards";
 
-function GamesView() {
-  const { result, loading, error, setResult, setError, setOrder } = useCards();
+interface Props {
+  gameQuery: GameQuery;
+}
 
-  const onValueChange = (order: string) => {
-    setOrder(order);
-  };
+const GamesView = ({ gameQuery }: Props) => {
+  const { data, error, isLoading } = useCards(gameQuery);
+  const skeletons = [1, 2, 3, 4, 5, 6];
 
-  const skeletons = [1, 2, 3, 4, 5, 6, 7];
+  if (error) return <Text>{error}</Text>;
 
   return (
-    <>
-      <Heading size="lg">Photos Here</Heading>
-      <GameSelect onSelectOrder={onValueChange} />
-      {loading &&
-        skeletons.map((s) => {
-          <GameSkeleton key={s} />;
-        })}
-      <GameBox data={result} />
-    </>
+    <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} padding="10px" gap={5}>
+      {isLoading &&
+        skeletons.map((skeleton) => (
+          <GameBoxContainer key={skeleton}>
+            <GameSkeleton />
+          </GameBoxContainer>
+        ))}
+      {data.map((game) => (
+        <GameBoxContainer key={game.id}>
+          <GameBox game={game} />
+        </GameBoxContainer>
+      ))}
+    </SimpleGrid>
   );
-}
+};
 
 export default GamesView;

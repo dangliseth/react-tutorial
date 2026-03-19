@@ -1,53 +1,26 @@
-import {
-  Card,
-  GridItem,
-  Heading,
-  Icon,
-  Image,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
-import type { Results } from "../services/card-service";
-import { GiStarsStack } from "react-icons/gi";
-import useCards from "../hooks/useCards";
-import GameSkeleton from "./GameSkeleton";
+import { Card, CardBody, Heading, HStack, Image, Text } from '@chakra-ui/react'
+import { type Game } from '../hooks/useCards'
+import getCroppedImageUrl from '../services/image-url'
+import CriticScore from './CriticScore'
+import PlatformIconList from './PlatformIconList'
 
 interface Props {
-  data: Results[];
+  game: Game
 }
-function GameBox({ data }: Props) {
 
-  const { loading } = useCards();
+const GameBox = ({ game }: Props) => {
   return (
-    <>
-      <SimpleGrid columns={3} gapX={100} gapY={10}>
-        {data.map((l) => (
-          <Card.Root
-            key={l.name}
-            width="250px"
-            variant="subtle"
-            overflow="hidden"
-          >
-            <Image src={l.background_image} alt={l.name} maxH={130} />
-            <Card.Body>
-              <Card.Title>
-                <Heading>{l.name}</Heading>
-                <Text>
-                  <Icon size="sm">
-                    <GiStarsStack color="yellow" />
-                  </Icon>{" "}
-                  {l.rating}
-                </Text>
-              </Card.Title>
-            </Card.Body>
-            <Card.Footer>
-              <Heading size="sm">Release Date: {l.released}</Heading>
-            </Card.Footer>
-          </Card.Root>
-        ))}
-      </SimpleGrid>
-    </>
-  );
+    <Card.Root>
+      <Image src={getCroppedImageUrl(game.background_image)} />
+      <CardBody>
+        <HStack justifyContent='space-between' marginBottom={3}>
+          <PlatformIconList platforms={game.parent_platforms?.map(p => p.platform)} />
+          <CriticScore score={game.metacritic} />
+        </HStack>
+        <Heading fontSize='2xl'>{game.name}</Heading>
+      </CardBody>
+    </Card.Root>
+  )
 }
 
 export default GameBox;

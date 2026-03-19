@@ -1,32 +1,34 @@
-import { CanceledError } from "axios";
-import { useEffect, useState } from "react";
-import cardService, { type List, type Results } from "../services/card-service";
+import { type GameQuery } from "../../App";
+import useData from "./useData";
+import useGenres from "./useGenres";
 
-const useCards = () => {
-  const [result, setResult] = useState<Results[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+export interface Platform {
+  id: number;
+  name: string;
+  slug: string;
+}
 
-  const [order, setOrder] = useState("");
+export interface Game {
+  id: number;
+  name: string;
+  background_image: string;
+  parent_platforms: { platform: Platform }[];
+  metacritic: number;
+  rating_top: number;
+}
 
-  useEffect(() => {
-    setLoading(true);
-    const { request, cancel } = cardService.getAll<List>({order: order});
-    request
-      .then((res) => {
-        setResult(res.data.results);
-        setLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-        setLoading(false);
-      });
-
-    return () => cancel();
-  }, [order]);
-
-  return { result, loading, error, setResult, setOrder, setError };
-};
+const useCards = (gameQuery: GameQuery) =>
+  useData<Game>(
+    "/games",
+    {
+      params: {
+        genres: gameQuery.genre?.id,
+        platforms: gameQuery.platform?.id,
+        ordering: gameQuery.sortOrder,
+        search: gameQuery.searchText
+      },
+    },
+    [gameQuery]
+  );
 
 export default useCards;

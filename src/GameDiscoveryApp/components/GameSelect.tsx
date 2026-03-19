@@ -1,51 +1,40 @@
-import { Portal, Select, createListCollection } from "@chakra-ui/react";
+import { Button, Menu, MenuItem } from "@chakra-ui/react";
+import { BsChevronDown } from "react-icons/bs";
 
 interface Props {
-  onSelectOrder: (order: string) => void;
+  onSelectSortOrder: (sortOrder: string) => void;
+  sortOrder: string;
 }
 
-const GameSelect = ({ onSelectOrder }: Props) => {
-  const orderFields = createListCollection({
-    items: [
-      { value: "name" },
-      { value: "released" },
-      { value: "added" },
-      { value: "created" },
-      { value: "updated" },
-      { value: "rating" },
-    ],
-  });
+const GameSelect = ({ onSelectSortOrder, sortOrder }: Props) => {
+  const sortOrders = [
+    { value: "", label: "Relevance" },
+    { value: "-added", label: "Date added" },
+    { value: "name", label: "Name" },
+    { value: "-released", label: "Release date" },
+    { value: "-metacritic", label: "Popularity" },
+    { value: "-rating", label: "Average rating" },
+  ];
+
+  const currentSortOrder = sortOrders.find(
+    (order) => order.value === sortOrder,
+  );
 
   return (
-    <>
-      <Select.Root
-        collection={orderFields}
-        onValueChange={(e) => onSelectOrder(e.value[0])}
-      >
-        <Select.HiddenSelect />
-        <Select.Label>Order by</Select.Label>
-        <Select.Control>
-          <Select.Trigger>
-            <Select.ValueText placeholder="Order" />
-          </Select.Trigger>
-          <Select.IndicatorGroup>
-            <Select.Indicator />
-          </Select.IndicatorGroup>
-        </Select.Control>
-        <Portal>
-          <Select.Positioner>
-            <Select.Content>
-              {orderFields.items.map((o) => (
-                <Select.Item item={o} key={o.value}>
-                  {o.value}
-                  <Select.ItemIndicator />
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Positioner>
-        </Portal>
-      </Select.Root>
-    </>
+    <Menu.Root>
+      <Menu.ItemGroup as={Button}>
+        Order by: {currentSortOrder?.label || "Relevance"}
+      </Menu.ItemGroup>
+      {sortOrders.map((order) => (
+        <MenuItem
+          onClick={() => onSelectSortOrder(order.value)}
+          key={order.value}
+          value={order.value}
+        >
+          {order.label}
+        </MenuItem>
+      ))}
+    </Menu.Root>
   );
 };
 
