@@ -6,6 +6,7 @@ import NavBar from "./GameDiscoveryApp/components/NavBar";
 import SideBar from "./GameDiscoveryApp/components/SideBar";
 import GamesView from "./GameDiscoveryApp/components/GamesView";
 import { GridItem, SimpleGrid } from "@chakra-ui/react";
+import useCards from "./GameDiscoveryApp/hooks/useCards";
 
 function App() {
   // const { users, loading, error, setUsers, setError } = useUsers();
@@ -51,11 +52,13 @@ function App() {
   //   });
   // };
 
+  const { loading } = useCards();
+
   return (
     <>
       <NavBar />
-      <SimpleGrid columns={2}>
-        <GridItem>
+      <SimpleGrid columns={2} gap={0}>
+        <GridItem maxW="sm">
           <SideBar />
         </GridItem>
         <GridItem>

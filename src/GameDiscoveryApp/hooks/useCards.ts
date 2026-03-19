@@ -11,7 +11,7 @@ const useCards = () => {
 
   useEffect(() => {
     setLoading(true);
-    const { request, cancel } = cardService.getAll<List>({});
+    const { request, cancel } = cardService.getAll<List>({order: order});
     request
       .then((res) => {
         setResult(res.data.results);
@@ -24,7 +24,7 @@ const useCards = () => {
       });
 
     return () => cancel();
-  }, []);
+  }, [order]);
 
   return { result, loading, error, setResult, setOrder, setError };
 };

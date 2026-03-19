@@ -1,28 +1,33 @@
-import { GridItem, Heading, SimpleGrid, Select, Portal } from "@chakra-ui/react";
+import {
+  GridItem,
+  Heading,
+  SimpleGrid,
+  Select,
+  Portal,
+} from "@chakra-ui/react";
 import useCards from "../hooks/useCards";
 import GameBox from "./GameBox";
 import GameSelect from "./GameSelect";
+import GameSkeleton from "./GameSkeleton";
 
 function GamesView() {
   const { result, loading, error, setResult, setError, setOrder } = useCards();
 
   const onValueChange = (order: string) => {
-
+    setOrder(order);
   };
+
+  const skeletons = [1, 2, 3, 4, 5, 6, 7];
 
   return (
     <>
-      <SimpleGrid autoRows={2} columns={1}>
-        <GridItem colSpan={3}>
-          <Heading size="lg">Photos Here</Heading>
-        </GridItem>
-        <GridItem>
-          <GameSelect handleChange={() => onValueChange(order)} />
-        </GridItem>
-        <GridItem>
-          <GameBox data={result} />
-        </GridItem>
-      </SimpleGrid>
+      <Heading size="lg">Photos Here</Heading>
+      <GameSelect onSelectOrder={onValueChange} />
+      {loading &&
+        skeletons.map((s) => {
+          <GameSkeleton key={s} />;
+        })}
+      <GameBox data={result} />
     </>
   );
 }

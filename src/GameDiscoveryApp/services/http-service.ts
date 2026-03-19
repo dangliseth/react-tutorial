@@ -2,15 +2,11 @@ import apiClient from "./api-client";
 
 interface Entity {
   id: number;
-};
-
-interface Parameters {
-  ordering?: string,
-  platforms?: string
 }
 
-interface Params {
-  parameters?: Parameters
+interface Parameters {
+  order?: string;
+  platforms?: string;
 }
 
 class httpService {
@@ -19,28 +15,28 @@ class httpService {
     this.endpoint = endpoint;
   }
 
-  getAll<T>({ parameters }: Params) {
+  getAll<T>({ order, platforms }: Parameters) {
     const controller = new AbortController();
 
     const request = apiClient.get<T>(this.endpoint, {
       signal: controller.signal,
-      params: {parameters}
-    } );
+      params: { ordering: { order }, platforms: { platforms } },
+    });
 
     return { request, cancel: () => controller.abort() };
-  };
+  }
 
   delete(id: number) {
     return apiClient.delete(`${this.endpoint}/${id}`);
-  };
+  }
 
   add<T>(entity: T) {
     return apiClient.post(this.endpoint, entity);
-  };
+  }
 
   update<T extends Entity>(entity: T) {
     return apiClient.patch(`${this.endpoint}/${entity.id}`, entity);
-  };
+  }
 }
 
 const create = (endpoint: string) => new httpService(endpoint);

@@ -1,22 +1,27 @@
-import { Portal, Select } from "@chakra-ui/react";
+import { Portal, Select, createListCollection } from "@chakra-ui/react";
 
 interface Props {
-  handleChange: () => void;
+  onSelectOrder: (order: string) => void;
 }
 
-const GameSelect = ({ handleChange }: Props) => {
-  const orderFields = [
-    "name",
-    "released",
-    "added",
-    "created",
-    "updated",
-    "rating",
-  ];
+const GameSelect = ({ onSelectOrder }: Props) => {
+  const orderFields = createListCollection({
+    items: [
+      { value: "name" },
+      { value: "released" },
+      { value: "added" },
+      { value: "created" },
+      { value: "updated" },
+      { value: "rating" },
+    ],
+  });
 
   return (
     <>
-      <Select.Root onValueChange={handleChange}>
+      <Select.Root
+        collection={orderFields}
+        onValueChange={(e) => onSelectOrder(e.value[0])}
+      >
         <Select.HiddenSelect />
         <Select.Label>Order by</Select.Label>
         <Select.Control>
@@ -30,9 +35,9 @@ const GameSelect = ({ handleChange }: Props) => {
         <Portal>
           <Select.Positioner>
             <Select.Content>
-              {orderFields.map((o) => (
-                <Select.Item item={o} key={o}>
-                  {o}
+              {orderFields.items.map((o) => (
+                <Select.Item item={o} key={o.value}>
+                  {o.value}
                   <Select.ItemIndicator />
                 </Select.Item>
               ))}
