@@ -27,16 +27,10 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
       <Heading fontSize="2xl" marginTop={9} marginBottom={3}>
         Genres
       </Heading>
-      <List.Root listStyle="none" padding={0}>
+      <List.Root listStyle="none" paddingX={0}>
         {data.map((genre) => (
-          <ListItem key={genre.id} paddingY="5px">
+          <ListItem key={genre.id} paddingY="8px">
             <HStack gap={3}>
-              <Image
-                boxSize="32px"
-                borderRadius={8}
-                objectFit="cover"
-                src={getCroppedImageUrl(genre.image_background)}
-              />
               <Button
                 whiteSpace="normal"
                 textAlign="left"
@@ -47,6 +41,12 @@ const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
                 variant="plain"
                 _hover={{ textDecoration: "underline" }}
               >
+                <Image
+                  boxSize="32px"
+                  borderRadius={8}
+                  objectFit="cover"
+                  src={getCroppedImageUrl(genre.image_background)}
+                />
                 {genre.name}
               </Button>
             </HStack>
