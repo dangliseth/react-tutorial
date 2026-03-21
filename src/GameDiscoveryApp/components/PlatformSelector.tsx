@@ -1,4 +1,4 @@
-import { Button, Group, Menu, MenuItem, Portal } from "@chakra-ui/react";
+import { Button, Menu, MenuItem, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 import { type Platform } from "../hooks/useCards";
 import usePlatforms from "../hooks/usePlatforms";
@@ -16,7 +16,7 @@ const PlatformSelector = ({ onSelectPlatform, selectedPlatform }: Props) => {
   return (
     <Menu.Root>
       <Menu.Trigger as={Button}>
-        {selectedPlatform?.name || "Platforms"}
+        {selectedPlatform?.name || "Platforms"} <BsChevronDown />
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>

@@ -4,12 +4,14 @@ import GameBox from "./GameBox";
 import GameBoxContainer from "./GameBoxContainer";
 import GameSkeleton from "../../components/GameSkeleton";
 import useCards from "../hooks/useCards";
+import type { ReactNode } from "react";
 
 interface Props {
   gameQuery: GameQuery;
+  children?: ReactNode;
 }
 
-const GamesView = ({ gameQuery }: Props) => {
+const GamesView = ({ gameQuery, children }: Props) => {
   const { data, error, isLoading } = useCards(gameQuery);
   const skeletons = [1, 2, 3, 4, 5, 6];
 
@@ -23,11 +25,12 @@ const GamesView = ({ gameQuery }: Props) => {
             <GameSkeleton />
           </GameBoxContainer>
         ))}
-      {data.map((game) => (
+      {!isLoading && data.map((game) => (
         <GameBoxContainer key={game.id}>
           <GameBox game={game} />
         </GameBoxContainer>
       ))}
+      {children}
     </SimpleGrid>
   );
 };

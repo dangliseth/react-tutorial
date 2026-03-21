@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem } from "@chakra-ui/react";
+import { Button, Menu, MenuItem, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 
 interface Props {
@@ -22,18 +22,24 @@ const GameSelect = ({ onSelectSortOrder, sortOrder }: Props) => {
 
   return (
     <Menu.Root>
-      <Menu.ItemGroup as={Button}>
-        Order by: {currentSortOrder?.label || "Relevance"}
-      </Menu.ItemGroup>
-      {sortOrders.map((order) => (
-        <MenuItem
-          onClick={() => onSelectSortOrder(order.value)}
-          key={order.value}
-          value={order.value}
-        >
-          {order.label}
-        </MenuItem>
-      ))}
+      <Menu.Trigger as={Button}>
+        Order by: {currentSortOrder?.label || "Relevance"} <BsChevronDown />
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content>
+            {sortOrders.map((order) => (
+              <MenuItem
+                onClick={() => onSelectSortOrder(order.value)}
+                key={order.value}
+                value={order.value}
+              >
+                {order.label}
+              </MenuItem>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
     </Menu.Root>
   );
 };

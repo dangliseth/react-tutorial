@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Heading } from "@chakra-ui/react";
 import { useState } from "react";
 import GamesView from "./GameDiscoveryApp/components/GamesView";
 import GameHeading from "./GameDiscoveryApp/components/GameHeading";
@@ -79,14 +79,15 @@ function App() {
             onSearch={(searchText) =>
               setGameQuery({ ...gameQuery, searchText })
             }
+            onLogoClick={() => setGameQuery({} as GameQuery)}
           />
         </GridItem>
-          <GridItem area="aside" paddingX={5}>
-            <GenreList
-              selectedGenre={gameQuery.genre}
-              onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
-            />
-          </GridItem>
+        <GridItem area="aside" paddingX={5}>
+          <GenreList
+            selectedGenre={gameQuery.genre}
+            onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
+          />
+        </GridItem>
         <GridItem area="main">
           <Box paddingLeft={2}>
             <GameHeading gameQuery={gameQuery} />
@@ -107,7 +108,9 @@ function App() {
               />
             </Flex>
           </Box>
-          <GamesView gameQuery={gameQuery} />
+          <GamesView gameQuery={gameQuery}>
+            {!gameQuery && <Heading>No games like that.</Heading>}
+          </GamesView>
         </GridItem>
       </Grid>
     </>
