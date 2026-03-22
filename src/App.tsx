@@ -71,7 +71,7 @@ function App() {
         }}
         templateColumns={{
           base: "1fr",
-          lg: "250px 1fr",
+          lg: "200px 1fr",
         }}
       >
         <GridItem area="nav">
@@ -82,7 +82,11 @@ function App() {
             onLogoClick={() => setGameQuery({} as GameQuery)}
           />
         </GridItem>
-        <GridItem area="aside" paddingX={5}>
+        <GridItem
+          area="aside"
+          paddingX={5}
+          display={{ base: "none", lg: "block" }}
+        >
           <GenreList
             selectedGenre={gameQuery.genre}
             onSelectGenre={(genre) => setGameQuery({ ...gameQuery, genre })}
@@ -91,15 +95,13 @@ function App() {
         <GridItem area="main">
           <Box paddingLeft={2}>
             <GameHeading gameQuery={gameQuery} />
-            <Flex marginBottom={5}>
-              <Box marginRight={5}>
-                <PlatformSelector
-                  selectedPlatform={gameQuery.platform}
-                  onSelectPlatform={(platform) =>
-                    setGameQuery({ ...gameQuery, platform })
-                  }
-                />
-              </Box>
+            <Flex marginBottom={5} flexWrap="wrap" gap={5}>
+              <PlatformSelector
+                selectedPlatform={gameQuery.platform}
+                onSelectPlatform={(platform) =>
+                  setGameQuery({ ...gameQuery, platform })
+                }
+              />
               <GameSelect
                 sortOrder={gameQuery.sortOrder}
                 onSelectSortOrder={(sortOrder) =>

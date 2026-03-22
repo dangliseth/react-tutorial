@@ -31,7 +31,7 @@ const PlatformIconList = ({ platforms = [] }: Props) => {
   };
 
   return (
-    <HStack marginY={1}>
+    <HStack marginY={1} flexWrap="wrap">
       {platforms.map((platform) => {
         const IconComponent = iconMap[platform.slug];
         if (!IconComponent) return null;

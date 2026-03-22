@@ -1,4 +1,4 @@
-import { Input, InputElement, Group, InputGroup } from "@chakra-ui/react";
+import { Input, InputGroup } from "@chakra-ui/react";
 import { useRef } from "react";
 import { TbWorldSearch } from "react-icons/tb";
 
@@ -11,7 +11,7 @@ const SearchInput = ({ onSearch }: Props) => {
 
   return (
     <form
-      style={{ width: "100%" }}
+      style={{ flex: 1, minWidth: 0 }}
       onSubmit={(event) => {
         event.preventDefault();
         if (ref.current) onSearch(ref.current.value);
@@ -21,7 +21,7 @@ const SearchInput = ({ onSearch }: Props) => {
         if (ref.current) onSearch(ref.current.value);
       }}
     >
-      <InputGroup width="100%" startAddon={<TbWorldSearch />}>
+      <InputGroup startAddon={<TbWorldSearch />} w="100%">
         <Input
           ref={ref}
           borderRadius={20}

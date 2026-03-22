@@ -21,7 +21,7 @@ const GameBox = ({ game }: Props) => {
           />
           <CriticScore score={game.metacritic} />
         </HStack>
-        <Heading fontSize="2xl">{game.name}</Heading>
+        <Heading fontSize={{base: "lg", md: "2xl"}}>{game.name}</Heading>
       </Card.Body>
     </Card.Root>
   );
