@@ -1,4 +1,4 @@
-import { Card, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { Card, HStack, Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 const GameSkeleton = () => {
   return (
@@ -7,8 +7,10 @@ const GameSkeleton = () => {
         <Skeleton height="200px" />
       </Card.Header>
       <Card.Body>
-        <Skeleton height="20px" width="80%" marginBottom={3} />
-        <SkeletonText noOfLines={2} />
+        <HStack>
+          <SkeletonCircle size="6"/>
+          <SkeletonText noOfLines={1} />
+        </HStack>
       </Card.Body>
     </Card.Root>
   );
